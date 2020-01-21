@@ -8,6 +8,10 @@ import './Note.css';
 import PropTypes from 'prop-types';
 
 export default class Note extends React.Component {
+	state = {
+		error: null,
+	};
+
 	static defaultProps = {
 		onDeleteNote: () => {},
 	};
@@ -28,12 +32,15 @@ export default class Note extends React.Component {
 				return res.json();
 			})
 			.then(() => {
+				this.setState({ error: null });
 				this.context.deleteNote(noteId);
 				// allow parent to perform extra behaviour
 				this.props.onDeleteNote(noteId);
 			})
 			.catch(error => {
-				console.error({ error });
+				this.setState({
+					error: error.message,
+				});
 			});
 	};
 
@@ -59,14 +66,19 @@ export default class Note extends React.Component {
 						</span>
 					</div>
 				</div>
+				{this.state.error && (
+					<div>
+						<p>{this.state.error}</p>
+					</div>
+				)}
 			</div>
 		);
 	}
 }
 
 Note.propTypes = {
-	name: PropTypes.string,
-	id: PropTypes.string,
-	modified: PropTypes.string,
-	handleClickDelete: PropTypes.func,
+	name: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	modified: PropTypes.string.isRequired,
+	handleClickDelete: PropTypes.func.isRequired,
 };

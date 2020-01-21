@@ -16,6 +16,7 @@ class App extends Component {
 	state = {
 		notes: [],
 		folders: [],
+		error: null,
 	};
 
 	componentDidMount() {
@@ -33,9 +34,12 @@ class App extends Component {
 			})
 			.then(([notes, folders]) => {
 				this.setState({ notes, folders });
+				this.setState({ error: null });
 			})
 			.catch(error => {
-				console.error({ error });
+				this.setState({
+					error: error.message,
+				});
 			});
 	}
 
@@ -119,6 +123,11 @@ class App extends Component {
 						</main>
 					</NotefulError>
 				</div>
+				{this.state.error && (
+					<div>
+						<p>{this.state.error}</p>
+					</div>
+				)}
 			</NotefulContext.Provider>
 		);
 	}

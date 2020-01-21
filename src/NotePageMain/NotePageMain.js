@@ -47,5 +47,5 @@ NotePageMain.defaultProps = {
 };
 
 NotePageMain.propTypes = {
-	noteId: PropTypes.string,
+	noteId: PropTypes.string.isRequired,
 };
