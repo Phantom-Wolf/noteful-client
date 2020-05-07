@@ -21,14 +21,14 @@ class App extends Component {
 
 	componentDidMount() {
 		Promise.all([
-			fetch(`${config.API_ENDPOINT}/notes`),
-			fetch(`${config.API_ENDPOINT}/folders`),
+			fetch(`${config.API_ENDPOINT}/api/notes`),
+			fetch(`${config.API_ENDPOINT}/api/folders`),
 		])
 			.then(([notesRes, foldersRes]) => {
 				if (!notesRes.ok)
-					return notesRes.json().then(e => Promise.reject(e));
+					return notesRes.json().then((e) => Promise.reject(e));
 				if (!foldersRes.ok)
-					return foldersRes.json().then(e => Promise.reject(e));
+					return foldersRes.json().then((e) => Promise.reject(e));
 
 				return Promise.all([notesRes.json(), foldersRes.json()]);
 			})
@@ -36,26 +36,26 @@ class App extends Component {
 				this.setState({ notes, folders });
 				this.setState({ error: null });
 			})
-			.catch(error => {
+			.catch((error) => {
 				this.setState({
 					error: error.message,
 				});
 			});
 	}
 
-	handleDeleteNote = noteId => {
+	handleDeleteNote = (noteId) => {
 		this.setState({
-			notes: this.state.notes.filter(note => note.id !== noteId),
+			notes: this.state.notes.filter((note) => note.id !== noteId),
 		});
 	};
 
-	addFolder = folder => {
+	addFolder = (folder) => {
 		this.setState({
 			folders: [...this.state.folders, folder],
 		});
 	};
 
-	addNote = note => {
+	addNote = (note) => {
 		this.setState({
 			notes: [...this.state.notes, note],
 		});
@@ -64,7 +64,7 @@ class App extends Component {
 	renderNavRoutes() {
 		return (
 			<>
-				{['/', '/folder/:folderId'].map(path => (
+				{['/', '/folder/:folderId'].map((path) => (
 					<Route
 						exact
 						key={path}
@@ -82,7 +82,7 @@ class App extends Component {
 	renderMainRoutes() {
 		return (
 			<>
-				{['/', '/folder/:folderId'].map(path => (
+				{['/', '/folder/:folderId'].map((path) => (
 					<Route
 						exact
 						key={path}

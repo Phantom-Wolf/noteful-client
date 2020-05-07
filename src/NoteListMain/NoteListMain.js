@@ -7,6 +7,7 @@ import CircleButton from '../CircleButton/CircleButton';
 import './NoteListMain.css';
 import { getNotesForFolder } from '../notes-helpers';
 import PropTypes from 'prop-types';
+import { faNetworkWired } from '@fortawesome/free-solid-svg-icons';
 
 export default class NoteListMain extends React.Component {
 	static defaultProps = {
@@ -20,15 +21,16 @@ export default class NoteListMain extends React.Component {
 		const { folderId } = this.props.match.params;
 		const { notes = [] } = this.context;
 		const notesForFolder = getNotesForFolder(notes, folderId);
+
 		return (
 			<section className='NoteListMain'>
 				<ul>
-					{notesForFolder.map(note => (
+					{notesForFolder.map((note) => (
 						<li key={note.id}>
 							<Note
 								id={note.id}
-								name={note.name}
-								modified={note.modified}
+								name={note.note_name}
+								modified={note.date_modified}
 							/>
 						</li>
 					))}
@@ -54,5 +56,5 @@ NoteListMain.defaultProps = {
 	notes: [],
 };
 NoteListMain.propTypes = {
-	folderId: PropTypes.string.isRequired,
+	// folderId: PropTypes.number,
 };

@@ -19,7 +19,7 @@ export default function NotePageNav(props) {
 			</CircleButton>
 			{props.folder && (
 				<h3 className='NotePageNav__folder-name'>
-					{props.folder.name}
+					{props.folders.folder_name}
 				</h3>
 			)}
 		</div>
@@ -27,11 +27,17 @@ export default function NotePageNav(props) {
 }
 
 NotePageNav.defaultProps = {
+	notes: [],
+	folders: [],
+	name: '',
 	history: {
 		goBack: () => {},
 	},
 };
 
 NotePageNav.propTypes = {
-	folder: PropTypes.object.isRequired,
+	folders: PropTypes.array.isRequired,
+	notes: PropTypes.array.isRequired,
+	name: PropTypes.string,
+	noteId: PropTypes.number,
 };

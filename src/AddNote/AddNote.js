@@ -71,39 +71,38 @@ export class AddNote extends Component {
 
 	// add note API call
 
-	handleSubmit = event => {
+	handleSubmit = (event) => {
 		event.preventDefault();
 
 		const note = {
-			name: this.state.name.value,
-			modified: new Date(),
-			folderId: this.state.option.id,
+			note_name: this.state.name.value,
+			date_modified: new Date(),
+			folder_id: this.state.option.id,
 			content: this.state.content.value,
 		};
-		console.log(note);
 		this.setState({ error: null });
-		fetch('http://localhost:9090/notes', {
+		fetch('http://localhost:8000/api/notes', {
 			method: 'POST',
 			body: JSON.stringify(note),
 			headers: {
 				'content-type': 'application/json',
 			},
 		})
-			.then(res => {
+			.then((res) => {
 				if (!res.ok) {
 					// get the error message from the response,
-					return res.json().then(error => {
+					return res.json().then((error) => {
 						// then throw it
 						throw error;
 					});
 				}
 				return res.json();
 			})
-			.then(data => {
+			.then((data) => {
 				this.context.addNote(data);
 				this.props.history.push('/');
 			})
-			.catch(err => {
+			.catch((err) => {
 				this.setState({
 					error: err.message,
 				});
@@ -122,7 +121,7 @@ export class AddNote extends Component {
 							type='text'
 							className='note__name'
 							id='name'
-							onChange={e => this.updateName(e.target.value)}
+							onChange={(e) => this.updateName(e.target.value)}
 						/>
 						{this.state.name.touched && (
 							<ValidateForm message={this.validateName()} />
@@ -135,7 +134,7 @@ export class AddNote extends Component {
 							id='content'
 							rows='5'
 							cols='33'
-							onChange={e => this.updateContent(e.target.value)}
+							onChange={(e) => this.updateContent(e.target.value)}
 						/>
 						{this.state.content.touched && (
 							<ValidateForm message={this.validateContent()} />
@@ -146,12 +145,12 @@ export class AddNote extends Component {
 						<select
 							id='note-folder-select'
 							name='note-folder-id'
-							onChange={e => this.updateOption(e.target.value)}
+							onChange={(e) => this.updateOption(e.target.value)}
 						>
 							<option value={null}>...</option>
-							{folders.map(folder => (
+							{folders.map((folder) => (
 								<option key={folder.id} value={folder.id}>
-									{folder.name}
+									{folder.folder_name}
 								</option>
 							))}
 						</select>

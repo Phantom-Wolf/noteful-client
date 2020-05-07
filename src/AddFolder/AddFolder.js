@@ -28,38 +28,38 @@ export class AddFolder extends Component {
 		}
 	}
 
-	handleSubmit = event => {
+	handleSubmit = (event) => {
 		event.preventDefault();
 
 		const { name } = event.target;
 		console.log(name.value);
 		const folder = {
-			name: name.value,
+			folder_name: name.value,
 		};
 		console.log(folder);
 		this.setState({ error: null });
-		fetch('http://localhost:9090/folders', {
+		fetch('http://localhost:8000/api/folders', {
 			method: 'POST',
 			body: JSON.stringify(folder),
 			headers: {
 				'content-type': 'application/json',
 			},
 		})
-			.then(res => {
+			.then((res) => {
 				if (!res.ok) {
 					// get the error message from the response,
-					return res.json().then(error => {
+					return res.json().then((error) => {
 						// then throw it
 						throw error;
 					});
 				}
 				return res.json();
 			})
-			.then(data => {
+			.then((data) => {
 				this.context.addFolder(data);
 				this.props.history.push('/');
 			})
-			.catch(err => {
+			.catch((err) => {
 				this.setState({
 					error: err.message,
 				});
@@ -77,7 +77,7 @@ export class AddFolder extends Component {
 							type='text'
 							name='name'
 							id='name'
-							onChange={e => this.updateName(e.target.value)}
+							onChange={(e) => this.updateName(e.target.value)}
 						/>
 						{this.state.touched && (
 							<ValidateForm message={this.validateName()} />
