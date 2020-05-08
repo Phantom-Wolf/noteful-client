@@ -28,10 +28,12 @@ export default class Note extends React.Component {
 			},
 		})
 			.then((res) => {
+				console.log(res);
 				if (!res.ok) return res.json().then((e) => Promise.reject(e));
-				return res.json();
+				// return res.json();
 			})
 			.then(() => {
+				console.log(noteId);
 				this.setState({ error: null });
 				this.context.deleteNote(noteId);
 				// allow parent to perform extra behaviour
