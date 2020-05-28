@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 export class NotefulError extends Component {
 	constructor(props) {
@@ -12,7 +12,7 @@ export class NotefulError extends Component {
 	}
 	render() {
 		if (this.state.hasError) {
-			return <h2>Could not display this currency.</h2>;
+			return <h2>Could not display this object.</h2>;
 		}
 		return this.props.children;
 	}
