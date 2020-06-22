@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
-import NotefulForm from '../NotefulForm/NotefulForm';
-import ValidateForm from '../ValidateForm/ValidateForm';
-import NotefulContext from '../NotefulContext';
+import React, { Component } from "react";
+import NotefulForm from "../NotefulForm/NotefulForm";
+import ValidateForm from "../ValidateForm/ValidateForm";
+import NotefulContext from "../NotefulContext";
+import config from "../config";
 
 export class AddFolder extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: '',
+			name: "",
 			touched: false,
 			error: null,
 		};
@@ -22,9 +23,9 @@ export class AddFolder extends Component {
 	validateName() {
 		const name = this.state.name.trim();
 		if (name.length === 0) {
-			return 'Name is required';
+			return "Name is required";
 		} else if (name.length < 2) {
-			return 'Name must be atleast 2 characters long';
+			return "Name must be atleast 2 characters long";
 		}
 	}
 
@@ -38,11 +39,11 @@ export class AddFolder extends Component {
 		};
 		console.log(folder);
 		this.setState({ error: null });
-		fetch('http://localhost:8000/api/folders', {
-			method: 'POST',
+		fetch(`${config.API_ENDPOINT}/api/folders`, {
+			method: "POST",
 			body: JSON.stringify(folder),
 			headers: {
-				'content-type': 'application/json',
+				"content-type": "application/json",
 			},
 		})
 			.then((res) => {
@@ -57,7 +58,7 @@ export class AddFolder extends Component {
 			})
 			.then((data) => {
 				this.context.addFolder(data);
-				this.props.history.push('/');
+				this.props.history.push("/");
 			})
 			.catch((err) => {
 				this.setState({
@@ -68,23 +69,21 @@ export class AddFolder extends Component {
 
 	render() {
 		return (
-			<section className='addfolder'>
+			<section className="addfolder">
 				<h2>Create a Folder</h2>
 				<NotefulForm onSubmit={this.handleSubmit}>
 					<div>
-						<label htmlFor='name'>Name</label>
+						<label htmlFor="name">Name</label>
 						<input
-							type='text'
-							name='name'
-							id='name'
+							type="text"
+							name="name"
+							id="name"
 							onChange={(e) => this.updateName(e.target.value)}
 						/>
-						{this.state.touched && (
-							<ValidateForm message={this.validateName()} />
-						)}
+						{this.state.touched && <ValidateForm message={this.validateName()} />}
 					</div>
 					<div>
-						<button type='submit' disabled={this.validateName()}>
+						<button type="submit" disabled={this.validateName()}>
 							Add Folder
 						</button>
 					</div>
